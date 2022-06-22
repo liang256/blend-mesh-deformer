@@ -43,10 +43,12 @@ MStatus BlendMeshDeformer::deform(
     float env = data.inputValue(envelope).asFloat();
 
     MPoint point;
+    float w; // Paint weight value of each vertex
     for (; !itGeo.isDone(); itGeo.next())
     {
         point = itGeo.position();
-        point += (blendPoints[itGeo.index()] - point) * blendWeight * env;
+        w = weightValue(data, geomIndex, itGeo.index());
+        point += (blendPoints[itGeo.index()] - point) * blendWeight * env * w;
         itGeo.setPosition(point);
     }
 
@@ -69,6 +71,8 @@ MStatus BlendMeshDeformer::initialize()
     nAttr.setMax(1.0f);
     nAttr.setKeyable(true);
     attributeAffects(aBlendWeight, outputGeom);
+
+    MGlobal::executeCommand("makePaintable -attrType multiFloat -shapeMode deformer blendMesh weights;");
 
     return MS::kSuccess;
 }
