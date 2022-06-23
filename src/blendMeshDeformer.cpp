@@ -41,6 +41,7 @@ MStatus BlendMeshDeformer::deform(
 
     float blendWeight = data.inputValue(aBlendWeight).asFloat();
     float env = data.inputValue(envelope).asFloat();
+    blendWeight *= env;
 
     MPoint point;
     float w; // Paint weight value of each vertex
@@ -48,7 +49,7 @@ MStatus BlendMeshDeformer::deform(
     {
         point = itGeo.position();
         w = weightValue(data, geomIndex, itGeo.index());
-        point += (blendPoints[itGeo.index()] - point) * blendWeight * env * w;
+        point += (blendPoints[itGeo.index()] - point) * blendWeight * w;
         itGeo.setPosition(point);
     }
 
