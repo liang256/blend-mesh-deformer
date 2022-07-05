@@ -3,7 +3,8 @@ implement a blendshape node of Maya in C++
 
 ### Compile
 ```sh
-cd build
+mkdir build && cd build
+cmake -G "Unix Makefiles" -DMAYA_VERSION=2019 ../
 cmake --build . --config Release
 ```
 The result binary file would be created at `<progject_path>/build/src/blendMeshDeformer.<extension>`.
